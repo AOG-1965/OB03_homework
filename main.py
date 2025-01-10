@@ -50,3 +50,18 @@ class Reptile(Animal):
     def slither(self):                      # Специфический метод - "ползать"
         return f"{self.name} ползет по земле."
 
+# 3. Продемонстрируйте полиморфизм: создайте функцию `animal_sound(animals)`,
+# которая принимает список животных и вызывает метод `make_sound()` для каждого животного.
+
+def animal_sound(animals):
+    for animal in animals:  # Перебор объектов в списке animals и вызов по каждому метода make_sound()
+        print(f"{animal.name} говорит: {animal.make_sound()}")
+
+# Создание объектов разных животных
+sparrow = Bird("Воробей", 2, 0.5)
+lion = Mammal("Лев", 5, True)
+snake = Reptile("Змея", 3, True)
+
+animals = [sparrow, lion, snake]    # Создание списка животных
+
+animal_sound(animals)               # Вызов функции animal_sound
