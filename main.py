@@ -1,3 +1,27 @@
+# Дополнительно:
+# Попробуйте добавить дополнительные функции в вашу программу,
+# такие как сохранение информации о зоопарке в файл и возможность её загрузки,
+# чтобы у вашего зоопарка было "постоянное состояние" между запусками программы.
+
+import pickle
+
+# Функция для сохранения состояния зоопарка в файл
+def save_zoo(zoo, filename):
+    with open(filename, 'wb') as file:
+        pickle.dump(zoo, file)
+    print(f"Зоопарк сохранен в файл {filename}.")
+
+# Функция для загрузки состояния зоопарка из файла
+def load_zoo(filename):
+    try:
+        with open(filename, 'rb') as file:
+            zoo = pickle.load(file)
+        print(f"Зоопарк загружен из файла {filename}.")
+        return zoo
+    except FileNotFoundError:
+        print(f"Файл {filename} не найден. Создается новый зоопарк.")
+        return Zoo()  # Если файл не найден, создаем новый зоопарк
+
 # 1. Создайте базовый класс `Animal`, который будет содержать общие атрибуты
 # (например, `name`, `age`) и методы (`make_sound()`, `eat()`) для всех животных.
 
@@ -126,7 +150,7 @@ snake = Reptile("Змея", 3, True)
 employee1 = Employee("Петров И.С.", "пол: муж.", "55")      # Без должности
 employee2 = Employee("Сидорова М.А.", "пол: жен.", "35")    # Без должности
 
-# Создание зоопарка, как конкретного объекта
+# Создание зоопарка
 zoo = Zoo()
 
 # Добавление животных и сотрудников в зоопарк
@@ -141,31 +165,6 @@ zoo.add_employee(employee2)
 zoo.show_animals()
 zoo.show_employees()
 
-# 5. Создайте классы для сотрудников, например, `ZooKeeper`, `Veterinarian`,
-# которые могут иметь специфические методы (например, `feed_animal()` для `ZooKeeper`
-# и `heal_animal()` для `Veterinarian`).
-
-# Класс ZooKeeper (Смотритель зоопарка) - наследуется от Employee
-class ZooKeeper(Employee):
-    def __init__(self, name, gender, age):
-        super().__init__(name, gender, age)
-        self.assign_position("Смотритель зоопарка")  # Присвоение должности
-
-    def feed_animal(self, animal):
-        # Смотритель кормит животное
-        return f"{self.name} кормит {animal.name}."
-
-# Класс Veterinarian (Ветеринар) - наследуется от Employee
-class Veterinarian(Employee):
-    def __init__(self, name, gender, age):
-        super().__init__(name, gender, age)
-        self.assign_position("Ветеринар")  # Присваиваем должность
-    def heal_animal(self, animal):
-        # Ветеринар лечит животное
-        return f"{self.name} лечит {animal.name}."
-
-employee2.assign_position("Смотритель зоопарка")
-employee1.assign_position("Ветеринар")
-
-print(employee1.get_info())
-print(employee2.get_info())
+# Сохранение состояния зоопарка в файл
+zoo_filename = "zoo.pkl"        # Указываем имя файла для сохранения
+save_zoo(zoo, zoo_filename)     # Сохраняем зоопарк в файл
